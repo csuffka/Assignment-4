@@ -1,0 +1,44 @@
+# Assignment-4 Problem 1
+#This code uses the Debyes theory of solids to calculate Cv for a given value of the temperature
+
+from math import e
+from numpy import zeros, linspace
+from pylab import plot, show, xlabel, ylabel, xlim, ylim, title
+
+V=1000 #volume, cm^3
+p=6.022*10**28  #number density, m^-3
+theta=428.0   #Debye temperature, Kelvin
+kb=1.3806488*10**-23   #Boltzmanns constant, m^2*kg*s^-2*K^-1
+
+N=1000
+cv=0.0
+a=1.0
+T=float(5.0)
+y=zeros(100,float)
+x=linspace(5,500,100)
+i=0
+
+def f(x):
+    return (x**4.0*e**x)/((e**x-1.0)**2.0)
+
+for T in range (5,500,5):
+
+    b=theta/T
+    h=(b-a)/N
+
+    s = 0.5*f(a)+0.5*f(b)
+
+    for k in range (1,N):
+        s+=f(a+k*h)
+    cv=(9*V*p*kb*(T/theta)**3*s*h)
+    y[i]=cv
+    i+=1
+    print 'For T= ' ,T, 'the heat capacity= ',cv, 'K'
+    
+plot(x,y)
+xlabel('Temperature')
+ylabel('Heat Capacity')
+show()
+
+
+
